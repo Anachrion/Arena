@@ -7,6 +7,25 @@
   %b Description:
   = @fight.description
 
+%table.table
+  %thead
+    %tr
+      %th{:scope => "col"} #
+      %th{:scope => "col"} Attaquant
+      %th{:scope => "col"} Touche
+      %th{:scope => "col"} Dommage
+      %th{:scope => "col"} Défenseur
+      %th{:scope => "col"} PV du défenseur
+  %tbody
+    - @fight.actions.each do |action|
+      %tr
+        %th{:scope => "row"} #{action.turn}
+        %td #{action.assaillant.name}
+        %td #{(action.hit_roll <= action.assaillant.precision) ? "Oui ("+action.hit_roll.to_s+"/"+action.assaillant.precision.to_s+")" : "Non"}
+        %td #{action.damage}
+        %td #{action.defender.name}
+        %td #{action.defender_hp_left}
+
 = link_to 'Edit', edit_fight_path(@fight)
 \|
 = link_to 'Back', fights_path

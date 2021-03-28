@@ -1,0 +1,11 @@
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  = link_to "Arena", root_path, class:"navbar-brand"
+  #navbarSupportedContent.collapse.navbar-collapse
+    .mx-auto
+      %ul.navbar-nav
+        %li.nav-item.active
+          = link_to "Accueil", root_path, class:"nav-link"
+        %li.nav-item.active
+          = link_to "Personnages", fighters_path, class:"nav-link"
+        %li.nav-item.active
+          = link_to "Combats", fights_path, class:"nav-link"

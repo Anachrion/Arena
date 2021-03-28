@@ -1,23 +1,27 @@
-%h1 Listing fights
+.d-flex.justify-content-center.my-3
+  = link_to 'Lancer un combat', new_fight_path, class:"btn btn-success"
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th
-      %th
-      %th
+.d-flex.row
+  .col-md-10
+    - @fights.each_with_index do |fight|
+      .row.p-2.bg-white.border.rounded
+        .col-2
+          = link_to fight do
+            %img.img-fluid.img-responsive.rounded.product-image{ src: "#{(fight.fighters.first.image&.persisted? ? url_for(fight.fighters.first.image) : image_path("user-placeholder.jpg"))}" }
 
-  %tbody
-    - @fights.each do |fight|
-      %tr
-        %td= fight.name
-        %td= fight.description
-        %td= link_to 'Show', fight
-        %td= link_to 'Edit', edit_fight_path(fight)
-        %td= link_to 'Destroy', fight, method: :delete, data: { confirm: 'Are you sure?' }
+        .col-5
+          .d-flex.flex-column.align-items-center
+            %h5
+              = link_to fight, class:"text-dark" do
+                = fight.name
+            .my-1
+              %span.text-secondary
+                = fight.description
+        .col-2
+          = link_to fight do
+            %img.img-fluid.img-responsive.rounded.product-image{ src: "#{(fight.fighters.last.image&.persisted? ? url_for(fight.fighters.last.image) : image_path("user-placeholder.jpg"))}" }
 
-%br
-
-= link_to 'New Fight', new_fight_path
+        .col-3.align-items-center.align-content-center.border-left
+          .d-flex.flex-column.mt-4
+            = link_to 'Détails', fight, class:"btn btn-primary"
+            = link_to "Supprimer", fight, method: :delete, class:"btn btn-danger mt-2"

@@ -1,16 +1,19 @@
-= form_for @fight do |f|
+= form_with(model: @fight) do |form|
   - if @fight.errors.any?
     #error_explanation
       %h2= "#{pluralize(@fight.errors.count, "error")} prohibited this fight from being saved:"
       %ul
-        - @fight.errors.full_messages.each do |message|
-          %li= message
+        - @fight.errors.each do |error|
+          %li= error.full_message
+  .form-group
+    = form.label 'Nom'
+    = form.text_field :name, class: "form-control"
+  .form-group
+    = form.label :description
+    = form.text_area :description, class: "form-control"
+  .form-group
+    = form.label 'Combattants'
+    = form.collection_select :fighter_ids, Fighter.all, :id, :name, {}, {class: 'custom-select', multiple: true, required: true}
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :description
-    = f.text_area :description
   .actions
-    = f.submit 'Save'
+    = form.submit "Lancer le combat"

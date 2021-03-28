@@ -1,5 +1,7 @@
 %p#notice= notice
 
+%img.img-fluid.img-responsive.rounded.product-image{ src: "#{(@fighter.image&.persisted? ? url_for(@fighter.image) : image_path("user-placeholder.jpg"))}" }
+
 %p
   %b Name:
   = @fighter.name
@@ -7,7 +9,7 @@
   %b Description:
   = @fighter.description
 %p
-  %b Hit points:
+  %b HP :
   = @fighter.hit_points
 %p
   %b Strength:

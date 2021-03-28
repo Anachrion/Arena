@@ -1,29 +1,28 @@
-%h1 Listing fighters
+.d-flex.justify-content-center.my-3
+  = link_to 'Créer un combattant', new_fighter_path, class:"btn btn-success"
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th Hit points
-      %th Strength
-      %th Precision
-      %th
-      %th
-      %th
+.d-flex.row
+  .col-10
+    - @fighters.each_with_index do |fighter|
+      .row.p-2.bg-white.border.rounded
+        .col-3.mt-1
+          = link_to fighter do
+            %img.img-fluid.img-responsive.rounded.product-image{ src: "#{(fighter.image&.persisted? ? url_for(fighter.image) : image_path("user-placeholder.jpg"))}" }
 
-  %tbody
-    - @fighters.each do |fighter|
-      %tr
-        %td= fighter.name
-        %td= fighter.description
-        %td= fighter.hit_points
-        %td= fighter.strength
-        %td= fighter.precision
-        %td= link_to 'Show', fighter
-        %td= link_to 'Edit', edit_fighter_path(fighter)
-        %td= link_to 'Destroy', fighter, method: :delete, data: { confirm: 'Are you sure?' }
+        .col-6.mt-1
+          %h5
+            = link_to fighter, class:"text-dark" do
+              = fighter.name
+          .my-1
+            %span.text-secondary
+              = fighter.description
+          %ul.list-group
+            %li.list-group-item Precision : #{fighter.precision}
+            %li.list-group-item Strength : #{fighter.strength}
+            %li.list-group-item HP : #{fighter.hit_points}
 
-%br
-
-= link_to 'New Fighter', new_fighter_path
+        .col-3.align-items-center.align-content-center.border-left.mt-1
+          .d-flex.flex-column.mt-4
+            = link_to 'Détails', fighter, class:"btn btn-primary"
+            = link_to "Editer le personnage", edit_fighter_path(fighter), class:"btn btn-success mt-2"
+            = link_to "Supprimer", fighter, method: :delete, class:"btn btn-danger mt-2"

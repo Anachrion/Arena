@@ -1,10 +1,12 @@
 class Fight < ApplicationRecord
   has_and_belongs_to_many :fighters
-  has_many :actions, -> { order(:id) }
+  has_many :actions, -> { order(:id) }, dependent: :destroy
   belongs_to :winner, :class_name => 'Fighter', optional: true
 
   validates :fighters, length: { is: 2 }
   # TODO validates not twice the same fighter
+
+  before_create :execute
 
   def execute
     players = [
