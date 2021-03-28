@@ -1,0 +1,25 @@
+= form_for @fighter do |f|
+  - if @fighter.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@fighter.errors.count, "error")} prohibited this fighter from being saved:"
+      %ul
+        - @fighter.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :description
+    = f.text_area :description
+  .field
+    = f.label :hit_points
+    = f.number_field :hit_points
+  .field
+    = f.label :strength
+    = f.number_field :strength
+  .field
+    = f.label :precision
+    = f.number_field :precision
+  .actions
+    = f.submit 'Save'

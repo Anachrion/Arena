@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  hit_points: 1
+  strength: 1
+  precision: 1
+
+two:
+  name: MyString
+  description: MyText
+  hit_points: 1
+  strength: 1
+  precision: 1

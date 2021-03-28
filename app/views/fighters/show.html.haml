@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @fighter.name
+%p
+  %b Description:
+  = @fighter.description
+%p
+  %b Hit points:
+  = @fighter.hit_points
+%p
+  %b Strength:
+  = @fighter.strength
+%p
+  %b Precision:
+  = @fighter.precision
+
+= link_to 'Edit', edit_fighter_path(@fighter)
+\|
+= link_to 'Back', fighters_path
