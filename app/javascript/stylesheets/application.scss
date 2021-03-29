@@ -10,3 +10,10 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 .large-borders {
   border-width: 2px !important;;
 }
+
+
+.img-responsive-50 {
+  display: block;
+  max-width: 50%;
+  height: auto;
+}

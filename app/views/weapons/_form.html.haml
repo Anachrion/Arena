@@ -1,0 +1,24 @@
+= form_with(model: @weapon) do |form|
+  - if @weapon.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@weapon.errors.count, "error")} prohibited this weapon from being saved:"
+      %ul
+        - @weapon.errors.each do |error|
+          %li= error.full_message
+  .form-group
+    = form.label :name
+    = form.text_field :name, class: "form-control"
+  .form-group
+    = form.label :image
+    = form.file_field :image, class: "form-control"
+  .form-group
+    = form.label :description
+    = form.text_area :description, class: "form-control"
+  .form-group
+    = form.label :precision_modifier
+    = form.number_field :precision_modifier, class: "form-control"
+  .form-group
+    = form.label :damage_modifier
+    = form.number_field :damage_modifier, class: "form-control"
+  .actions
+    = form.submit

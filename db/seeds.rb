@@ -53,12 +53,61 @@ fighter_list.each do |fighter_params|
   fighter.save!
 end
 
+weapon_list = [
+  {
+    name: "Soul Calibur",
+    description: "Une épée légendaire qui peut boire l'âme de ses victimes.",
+    precision_modifier: 8,
+    damage_modifier: 5,
+    image_path: "soul-calibur.png"
+  },
+  {
+    name: "Lance de Longin",
+    description: "Une lance très ancienne.",
+    precision_modifier: 15,
+    damage_modifier: 2,
+    image_path: "longuinus-spear.png"
+  },
+  {
+    name: "Master Sword",
+    description: "Une épée Hyliène, supposée incassable.",
+    precision_modifier: 5,
+    damage_modifier: 5,
+    image_path: "master-sword.jpg"
+  },
+  {
+    name: "Dragon Slayer",
+    description: "Cette épée gigantesque est capable de couper un cheval en deux.",
+    precision_modifier: -10,
+    damage_modifier: 10,
+    image_path: "dragon_slayer.jpg"
+  }
+]
+
+weapon_list.each do |weapon_params|
+  image_path = weapon_params.delete(:image_path)
+  weapon = Weapon.new(weapon_params)
+  path = Rails.root.join('app', 'assets', 'images', image_path)
+  weapon.image.attach(io: File.open(path), filename: 'test1.png')
+  weapon.save!
+end
+
 fight = Fight.new(
   name: 'Le combat des titans',
-  description: 'Une description'
+  description: 'Une description',
+  first_fighter_weapon: Weapon.find_by(name: 'Dragon Slayer')
 )
-fight.fighters << Fighter.find(1)
-fight.fighters << Fighter.find(2)
+fight.fighters << Fighter.find_by(name: 'Ganondorf')
+fight.fighters << Fighter.find_by(name: 'Bowser')
 fight.save!
-fight.execute
+
+
+fight = Fight.new(
+  name: 'Duel à mort',
+  description: 'Une description',
+  first_fighter_weapon: Weapon.find_by(name: 'Master Sword'),
+  second_fighter_weapon: Weapon.find_by(name: 'Lance de Longin')
+)
+fight.fighters << Fighter.find_by(name: 'Link')
+fight.fighters << Fighter.find_by(name: 'Samus Aran')
 fight.save!

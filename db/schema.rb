@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_28_193818) do
+ActiveRecord::Schema.define(version: 2021_03_28_212017) do
 
   create_table "actions", force: :cascade do |t|
     t.integer "assaillant_id"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2021_03_28_193818) do
     t.integer "hit_points", default: 0
     t.integer "strength", default: 0
     t.integer "precision", default: 0
+    t.integer "level", default: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -78,7 +79,20 @@ ActiveRecord::Schema.define(version: 2021_03_28_193818) do
     t.integer "winner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "first_fighter_weapon_id"
+    t.integer "second_fighter_weapon_id"
+    t.index ["first_fighter_weapon_id"], name: "index_fights_on_first_fighter_weapon_id"
+    t.index ["second_fighter_weapon_id"], name: "index_fights_on_second_fighter_weapon_id"
     t.index ["winner_id"], name: "index_fights_on_winner_id"
+  end
+
+  create_table "weapons", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "precision_modifier", default: 0
+    t.integer "damage_modifier", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "actions", "fighters", column: "assaillant_id"
@@ -87,4 +101,6 @@ ActiveRecord::Schema.define(version: 2021_03_28_193818) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "fights", "fighters", column: "winner_id"
+  add_foreign_key "fights", "weapons", column: "first_fighter_weapon_id"
+  add_foreign_key "fights", "weapons", column: "second_fighter_weapon_id"
 end

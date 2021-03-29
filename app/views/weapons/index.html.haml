@@ -1,0 +1,27 @@
+.d-flex.justify-content-center.my-3
+  = link_to 'Ajouter une arme', new_weapon_path, class:"btn btn-success"
+
+.d-flex.row
+  .col-10
+    - @weapons.each_with_index do |weapon|
+      .row.p-2.bg-white.border.rounded
+        .col-3.mt-1
+          = link_to weapon do
+            %img.img-fluid.img-responsive.rounded{ src: "#{(weapon.image&.persisted? ? url_for(weapon.image) : image_path("object-placeholder.jpg"))}" }
+
+        .col-6.mt-1
+          %h5
+            = link_to weapon, class:"text-dark" do
+              = weapon.name
+          .my-1
+            %span.text-secondary
+              = weapon.description
+          %ul.list-group
+            %li.list-group-item Modificateur de précision : #{weapon.precision_modifier}
+            %li.list-group-item Modificateur de dégat : #{weapon.damage_modifier}
+
+        .col-3.align-items-center.align-content-center.border-left.mt-1
+          .d-flex.flex-column.mt-4
+            = link_to 'Détails', weapon, class:"btn btn-primary"
+            = link_to "Editer l'arme", edit_weapon_path(weapon), class:"btn btn-success mt-2"
+            = link_to "Supprimer", weapon, method: :delete, class:"btn btn-danger mt-2"

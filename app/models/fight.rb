@@ -3,38 +3,64 @@ class Fight < ApplicationRecord
   has_many :actions, -> { order(:id) }, dependent: :destroy
   belongs_to :winner, :class_name => 'Fighter', optional: true
 
+  belongs_to :first_fighter_weapon, :class_name => 'Weapon', optional: true
+  belongs_to :second_fighter_weapon, :class_name => 'Weapon', optional: true
+
+  belongs_to :winner, :class_name => 'Fighter', optional: true
+
   validates :name, presence: true
   validates :fighters, length: { is: 2 }
-  # TODO validates not twice the same fighter
 
   before_create :execute
 
   def execute
     players = [
-      { hp: fighters.first.hit_points, fighter: fighters.first },
-      { hp: fighters.last.hit_points, fighter: fighters.last }
+      FighterDecorator.new(fighters.first, first_fighter_weapon),
+      FighterDecorator.new(fighters.last, second_fighter_weapon)
     ]
 
     turn = 1
-    until players.any? { |p| p[:hp].zero? }
+
+    until players.any? { |p| p.remaining_hp.zero? }
       defender = players[turn%2]
       assaillant = players[(turn+1)%2]
 
       hit_roll = rand(1..100)
-      damage = hit_roll <= assaillant[:fighter].precision ? assaillant[:fighter].strength : 0
-      defender[:hp] = damage < defender[:hp] ? defender[:hp] - damage : 0
+      has_hit = hit_roll <= assaillant.precision
+      damage_range = has_hit ? assaillant.strength : 0
+      damage = rand(0..damage_range)
+      defender.remaining_hp = (damage < defender.remaining_hp) ? defender.remaining_hp - damage : 0
 
       actions.build(
         turn: turn,
-        defender_id: defender[:fighter].id,
-        assaillant_id: assaillant[:fighter].id,
+        defender_id: defender.id,
+        assaillant_id: assaillant.id,
         hit_roll: hit_roll,
         damage:  damage,
-        defender_hp_left: defender[:hp]
+        defender_hp_left: defender.remaining_hp
       )
       turn += 1
     end
 
-    self.winner_id = assaillant[:fighter].id
+    self.winner_id = assaillant.id
+  end
+
+
+  class FighterDecorator < SimpleDelegator
+    attr_accessor :remaining_hp
+
+    def initialize(fighter, weapon)
+      super fighter
+      @remaining_hp = fighter.hit_points
+      @weapon = weapon
+    end
+
+    def precison
+      precison + (@weapon.present ? @weapon.precision_modifier : 0)
+    end
+
+    def damage
+      strength + (@weapon.present ? @weapon.damage_modifier : 0)
+    end
   end
 end

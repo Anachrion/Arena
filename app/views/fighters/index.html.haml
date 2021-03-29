@@ -10,9 +10,13 @@
             %img.img-fluid.img-responsive.rounded{ src: "#{(fighter.image&.persisted? ? url_for(fighter.image) : image_path("user-placeholder.jpg"))}" }
 
         .col-6.mt-1
-          %h5
-            = link_to fighter, class:"text-dark" do
-              = fighter.name
+          .d-flex.justify-content-between
+            %h5
+              = link_to fighter, class:"text-dark" do
+                = fighter.name
+            %h5
+              Niveau:
+              %span.badge.badge-pill.badge-info=fighter.level
           .my-1
             %span.text-secondary
               = fighter.description

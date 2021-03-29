@@ -15,5 +15,13 @@
     = form.label 'Combattants'
     = form.collection_select :fighter_ids, Fighter.all, :id, :name, {}, {class: 'custom-select', multiple: true, required: true}
 
+  .form-group
+    = form.label 'Arme combattant 1'
+    = form.collection_select :first_fighter_weapon_id, Weapon.all, :id, :name, { include_blank: 'Sélectionnez une arme' }, {class: 'custom-select'}
+
+  .form-group
+    = form.label 'Arme combattant 2'
+    = form.collection_select :second_fighter_weapon_id, Weapon.all, :id, :name, { include_blank: 'Sélectionnez une arme' }, {class: 'custom-select'}
+
   .actions
     = form.submit "Lancer le combat"

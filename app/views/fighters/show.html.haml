@@ -1,14 +1,12 @@
-%p#notice= notice
+%img.img-fluid.img-responsive.rounded{ src: "#{(@fighter.image&.persisted? ? url_for(@fighter.image) : image_path("user-placeholder.jpg"))}", style: "max-height: 300px;"}
 
-%img.img-fluid.img-responsive.rounded{ src: "#{(@fighter.image&.persisted? ? url_for(@fighter.image) : image_path("user-placeholder.jpg"))}" }
-
-%p
-  %b Name:
+%h3
   = @fighter.name
-%p
-  %b Description:
+
+%span.text-secondary
   = @fighter.description
-%p
+
+%p.mt-2
   %b HP :
   = @fighter.hit_points
 %p
@@ -17,7 +15,7 @@
 %p
   %b Precision:
   = @fighter.precision
-
-= link_to 'Edit', edit_fighter_path(@fighter)
-\|
-= link_to 'Back', fighters_path
+.d-flex.flex-column.align-items-start
+  = link_to 'Retour', fighter_path, class:"btn btn-outline-primary mt-2"
+  = link_to 'Edit', edit_fighter_path(@fighter), class:"btn btn-outline-success mt-2"
+  = link_to "Supprimer", @fighter, method: :delete, class:"btn btn-danger mt-2"

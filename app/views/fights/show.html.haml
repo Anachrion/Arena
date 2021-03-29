@@ -1,5 +1,4 @@
 .w-50.mx-auto.my-5
-  %p#notice= notice
 
   %h3
     = @fight.name
@@ -7,18 +6,34 @@
   %span.text-secondary
     = @fight.description
 
-  .row.my-5
+  .row.mt-5
     .col-4.border.large-borders.rounded{ class: (@fight.fighters.first.id == @fight.winner.id ? 'border-success' : 'border-danger') }
-      = link_to @fight do
+      = link_to @fight.fighters.first do
         %img.img-fluid.img-responsive.rounded{ src: "#{(@fight.fighters.first.image&.persisted? ? url_for(@fight.fighters.first.image) : image_path("user-placeholder.jpg"))}" }
     .col-4.my-auto.text-center
       %span.badge.badge-info
         %h1
           VS
     .col-4.large-borders.border.rounded{ class: (@fight.fighters.last.id == @fight.winner.id ? 'border-success' : 'border-danger') }
-      = link_to @fight do
+      = link_to @fight.fighters.last do
         %img.img-fluid.img-responsive.rounded{ src: "#{(@fight.fighters.last.image&.persisted? ? url_for(@fight.fighters.last.image) : image_path("user-placeholder.jpg"))}" }
+  .row.mb
+    .col-4.text-center{ class: (@fight.fighters.first.id == @fight.winner.id ? 'text-success' : 'text-danger') }
+      %h5
+        #{@fight.fighters.first.name}
+    .col-4.offset-4.text-center{ class: (@fight.fighters.last.id == @fight.winner.id ? 'text-success' : 'text-danger') }
+      %h5
+        #{@fight.fighters.last.name}
 
+  .row.mb-5
+    .col-4.text-center
+      - if @fight.first_fighter_weapon
+        = link_to @fight.first_fighter_weapon do
+          %img.img-fluid.img-responsive-50.rounded{ src: "#{(@fight.first_fighter_weapon&.image&.persisted? ? url_for(@fight.first_fighter_weapon.image) : image_path("object-placeholder.jpg"))}" }
+    .col-4.offset-4.text-center
+      - if @fight.second_fighter_weapon
+        = link_to @fight.second_fighter_weapon do
+          %img.img-fluid.img-responsive-50.rounded{ src: "#{(@fight.second_fighter_weapon&.image&.persisted? ? url_for(@fight.second_fighter_weapon.image) : image_path("object-placeholder.jpg"))}" }
 
   %h3
     Résumé
