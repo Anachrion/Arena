@@ -20,14 +20,13 @@ class Fight < ApplicationRecord
     ]
 
     turn = 1
-
     until players.any? { |p| p.remaining_hp.zero? }
       defender = players[turn%2]
       assaillant = players[(turn+1)%2]
 
       hit_roll = rand(1..100)
       has_hit = hit_roll <= assaillant.precision
-      damage_range = has_hit ? assaillant.strength : 0
+      damage_range = has_hit ? assaillant.damage_range : 0
       damage = rand(0..damage_range)
       defender.remaining_hp = (damage < defender.remaining_hp) ? defender.remaining_hp - damage : 0
 
@@ -35,6 +34,7 @@ class Fight < ApplicationRecord
         turn: turn,
         defender_id: defender.id,
         assaillant_id: assaillant.id,
+        assaillant_precision: assaillant.precision,
         hit_roll: hit_roll,
         damage:  damage,
         defender_hp_left: defender.remaining_hp
@@ -43,11 +43,14 @@ class Fight < ApplicationRecord
     end
 
     self.winner_id = assaillant.id
+    self.winner.level += 1
+    self.winner.save!
   end
 
 
   class FighterDecorator < SimpleDelegator
     attr_accessor :remaining_hp
+    attr_accessor :fighter
 
     def initialize(fighter, weapon)
       super fighter
@@ -55,12 +58,16 @@ class Fight < ApplicationRecord
       @weapon = weapon
     end
 
-    def precison
-      precison + (@weapon.present ? @weapon.precision_modifier : 0)
+    def bonus_level
+      level-1
     end
 
-    def damage
-      strength + (@weapon.present ? @weapon.damage_modifier : 0)
+    def precision
+      super*(10+bonus_level)/10 + (@weapon.present? ? @weapon.precision_modifier : 0)
+    end
+
+    def damage_range
+      strength*(10+bonus_level)/10 + (@weapon.present? ? @weapon.damage_modifier : 0)
     end
   end
 end

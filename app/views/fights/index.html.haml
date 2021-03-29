@@ -1,5 +1,33 @@
-.d-flex.justify-content-center.my-3
-  = link_to 'Lancer un combat', new_fight_path, class:"btn btn-success"
+.d-flex.flex-column.align-items-center.justify-content-center.my-3
+  %h2
+    Bienvenue dans l'arène !
+  %span
+    Bienvenue dans ce petit simulateur de duel virtuel.
+    %br
+    Il ne s'agit que d'une simple démo.
+    %br
+    Les règles sont simples :
+    %br
+    %br
+    1) Chaque combattant a 3 caractéristiques: des points de vie (HP), une précision (<=> pourcentage de réussite pour toucher)
+    %br
+    et une force les dommage qu'il inflige (les domage sont une valeur alétoire entre 0 et la force du personnage)
+    %br
+    %br
+    2) Chaque combattant peut s'équiper d'une arme qui influe sur ses capacités offensives lors d'un combat
+    %br
+    %br
+    3) Le combat se décompose en actions, au cours desquels les protagonistes attaquent tour à tour
+    %br
+    %br
+    4) Le combat s'arrête dès que l'un des combattants atteint 0 HP
+    %br
+    %br
+    5) A la fin de chaque combat, le vainqueur gagne un niveau (qui influe légèrement sur ses capacités)
+
+
+
+  = link_to 'Lancer un combat', new_fight_path, class:"btn btn-success mt-5"
 
 .d-flex.row
   .col-md-10

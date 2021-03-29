@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2021_03_28_212017) do
     t.integer "defender_id"
     t.integer "fight_id"
     t.integer "hit_roll", default: 0
+    t.integer "assaillant_precision", default: 0
     t.integer "damage", default: 0
     t.integer "turn", default: 0
     t.integer "defender_hp_left"

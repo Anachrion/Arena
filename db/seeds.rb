@@ -111,3 +111,13 @@ fight = Fight.new(
 fight.fighters << Fighter.find_by(name: 'Link')
 fight.fighters << Fighter.find_by(name: 'Samus Aran')
 fight.save!
+
+fight = Fight.new(
+  name: 'Bataille au sommet',
+  description: 'Une description',
+  first_fighter_weapon: Weapon.find_by(name: 'Soul Calibur'),
+  second_fighter_weapon: Weapon.find_by(name: 'Lance de Longin')
+)
+fight.fighters << Fighter.find_by(name: 'Bowser')
+fight.fighters << Fighter.find_by(name: 'Link')
+fight.save!

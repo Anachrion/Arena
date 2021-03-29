@@ -15,7 +15,40 @@
 %p
   %b Precision:
   = @fighter.precision
+
+%p
+  %b Taux de victoire:
+  #{victory_rate(@fighter)} %
+
 .d-flex.flex-column.align-items-start
-  = link_to 'Retour', fighter_path, class:"btn btn-outline-primary mt-2"
+  = link_to 'Retour', fighters_path, class:"btn btn-outline-primary mt-2"
   = link_to 'Edit', edit_fighter_path(@fighter), class:"btn btn-outline-success mt-2"
   = link_to "Supprimer", @fighter, method: :delete, class:"btn btn-danger mt-2"
+
+
+%h3.mt-5
+  Historique des combats
+%table.table.table-striped
+  %thead.thead-dark
+    %tr
+      %th{:scope => "col"} #
+      %th{:scope => "col"} Combat
+      %th{:scope => "col"} Adversaire
+      %th{:scope => "col"} Nombre de tours
+      %th{:scope => "col"} Résultat
+  %tbody.font-weight-bold
+    - @fighter.fights.each_with_index do |fight, index|
+      %tr
+        %th{:scope => "row"} #{index}
+        %td
+          = link_to fight.name, fight
+        %td
+          = link_to opponent(fight, @fighter).name, opponent(fight, @fighter)
+        %td #{fight.actions.count}
+        %td
+          - if (fight.winner_id == @fighter.id)
+            .text-success
+              Victoire
+          -else
+            .text-danger
+              Défaite

@@ -51,7 +51,7 @@
         %tr
           %th{:scope => "row"} #{action.turn}
           %td #{action.assaillant.name}
-          %td #{(action.hit_roll <= action.assaillant.precision) ? "Oui ("+action.hit_roll.to_s+"/"+action.assaillant.precision.to_s+")" : "Non"}
+          %td #{(action.hit_roll <= action.assaillant_precision) ? "Oui ("+action.hit_roll.to_s+"/"+action.assaillant_precision.to_s+")" : "Non"}
           %td #{action.damage}
           %td #{action.defender.name}
           %td #{action.defender_hp_left}
