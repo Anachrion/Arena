@@ -3,6 +3,7 @@ class Fight < ApplicationRecord
   has_many :actions, -> { order(:id) }, dependent: :destroy
   belongs_to :winner, :class_name => 'Fighter', optional: true
 
+  validates :name, presence: true
   validates :fighters, length: { is: 2 }
   # TODO validates not twice the same fighter
 
@@ -23,7 +24,7 @@ class Fight < ApplicationRecord
       damage = hit_roll <= assaillant[:fighter].precision ? assaillant[:fighter].strength : 0
       defender[:hp] = damage < defender[:hp] ? defender[:hp] - damage : 0
 
-      actions.create!(
+      actions.build(
         turn: turn,
         defender_id: defender[:fighter].id,
         assaillant_id: assaillant[:fighter].id,

@@ -22,7 +22,6 @@ class FightersController < ApplicationController
   # POST /fighters or /fighters.json
   def create
     @fighter = Fighter.new(fighter_params)
-
     respond_to do |format|
       if @fighter.save
         format.html { redirect_to @fighter, notice: "Fighter was successfully created." }
