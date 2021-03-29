@@ -1,31 +1,45 @@
-%p#notice= notice
+.w-50.mx-auto.my-5
+  %p#notice= notice
 
-%p
-  %b Name:
-  = @fight.name
-%p
-  %b Description:
-  = @fight.description
+  %h3
+    = @fight.name
 
-%table.table.table-striped
-  %thead.thead-dark
-    %tr
-      %th{:scope => "col"} #
-      %th{:scope => "col"} Attaquant
-      %th{:scope => "col"} Touche
-      %th{:scope => "col"} Dommage
-      %th{:scope => "col"} Défenseur
-      %th{:scope => "col"} PV du défenseur
-  %tbody
-    - @fight.actions.each do |action|
+  %span.text-secondary
+    = @fight.description
+
+  .row.my-5
+    .col-4.border.large-borders.rounded{ class: (@fight.fighters.first.id == @fight.winner.id ? 'border-success' : 'border-danger') }
+      = link_to @fight do
+        %img.img-fluid.img-responsive.rounded{ src: "#{(@fight.fighters.first.image&.persisted? ? url_for(@fight.fighters.first.image) : image_path("user-placeholder.jpg"))}" }
+    .col-4.my-auto.text-center
+      %span.badge.badge-info
+        %h1
+          VS
+    .col-4.large-borders.border.rounded{ class: (@fight.fighters.last.id == @fight.winner.id ? 'border-success' : 'border-danger') }
+      = link_to @fight do
+        %img.img-fluid.img-responsive.rounded{ src: "#{(@fight.fighters.last.image&.persisted? ? url_for(@fight.fighters.last.image) : image_path("user-placeholder.jpg"))}" }
+
+
+  %h3
+    Résumé
+  %table.table.table-striped
+    %thead.thead-dark
       %tr
-        %th{:scope => "row"} #{action.turn}
-        %td #{action.assaillant.name}
-        %td #{(action.hit_roll <= action.assaillant.precision) ? "Oui ("+action.hit_roll.to_s+"/"+action.assaillant.precision.to_s+")" : "Non"}
-        %td #{action.damage}
-        %td #{action.defender.name}
-        %td #{action.defender_hp_left}
+        %th{:scope => "col"} #
+        %th{:scope => "col"} Attaquant
+        %th{:scope => "col"} Touche
+        %th{:scope => "col"} Dommage
+        %th{:scope => "col"} Défenseur
+        %th{:scope => "col"} PV du défenseur
+    %tbody
+      - @fight.actions.each do |action|
+        %tr
+          %th{:scope => "row"} #{action.turn}
+          %td #{action.assaillant.name}
+          %td #{(action.hit_roll <= action.assaillant.precision) ? "Oui ("+action.hit_roll.to_s+"/"+action.assaillant.precision.to_s+")" : "Non"}
+          %td #{action.damage}
+          %td #{action.defender.name}
+          %td #{action.defender_hp_left}
 
-= link_to 'Edit', edit_fight_path(@fight)
-\|
-= link_to 'Back', fights_path
+  = link_to "Supprimer", @fight, method: :delete, class:"btn btn-danger mt-2"
+  = link_to 'Retour', fights_path, class:"btn btn-outline-primary mt-2"

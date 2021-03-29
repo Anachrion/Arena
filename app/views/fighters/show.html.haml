@@ -1,6 +1,6 @@
 %p#notice= notice
 
-%img.img-fluid.img-responsive.rounded.product-image{ src: "#{(@fighter.image&.persisted? ? url_for(@fighter.image) : image_path("user-placeholder.jpg"))}" }
+%img.img-fluid.img-responsive.rounded{ src: "#{(@fighter.image&.persisted? ? url_for(@fighter.image) : image_path("user-placeholder.jpg"))}" }
 
 %p
   %b Name:

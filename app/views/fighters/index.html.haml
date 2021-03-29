@@ -7,7 +7,7 @@
       .row.p-2.bg-white.border.rounded
         .col-3.mt-1
           = link_to fighter do
-            %img.img-fluid.img-responsive.rounded.product-image{ src: "#{(fighter.image&.persisted? ? url_for(fighter.image) : image_path("user-placeholder.jpg"))}" }
+            %img.img-fluid.img-responsive.rounded{ src: "#{(fighter.image&.persisted? ? url_for(fighter.image) : image_path("user-placeholder.jpg"))}" }
 
         .col-6.mt-1
           %h5

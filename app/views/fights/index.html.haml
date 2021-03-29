@@ -5,9 +5,9 @@
   .col-md-10
     - @fights.each_with_index do |fight|
       .row.p-2.bg-white.border.rounded
-        .col-2
+        .col-2.border.large-borders.rounded{ class: (fight.fighters.first.id == fight.winner.id ? 'border-success' : 'border-danger') }
           = link_to fight do
-            %img.img-fluid.img-responsive.rounded.product-image{ src: "#{(fight.fighters.first.image&.persisted? ? url_for(fight.fighters.first.image) : image_path("user-placeholder.jpg"))}" }
+            %img.img-fluid.img-responsive.rounded{ src: "#{(fight.fighters.first.image&.persisted? ? url_for(fight.fighters.first.image) : image_path("user-placeholder.jpg"))}" }
 
         .col-5
           .d-flex.flex-column.align-items-center
@@ -17,9 +17,12 @@
             .my-1
               %span.text-secondary
                 = fight.description
-        .col-2
+            .my-1
+              %span.badge.badge-info
+                #{fight.actions.count} tours
+        .col-2.border.large-borders.rounded{ class: (fight.fighters.last.id == fight.winner.id ? 'border-success' : 'border-danger') }
           = link_to fight do
-            %img.img-fluid.img-responsive.rounded.product-image{ src: "#{(fight.fighters.last.image&.persisted? ? url_for(fight.fighters.last.image) : image_path("user-placeholder.jpg"))}" }
+            %img.img-fluid.img-responsive.rounded{ src: "#{(fight.fighters.last.image&.persisted? ? url_for(fight.fighters.last.image) : image_path("user-placeholder.jpg"))}" }
 
         .col-3.align-items-center.align-content-center.border-left
           .d-flex.flex-column.mt-4
